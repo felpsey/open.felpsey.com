@@ -1,0 +1,24 @@
+{
+  "name": "server.open.felpsey.com",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/felpsey/open.felpsey.com.git"
+  },
+  "author": "Ethan Phelps",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/felpsey/open.felpsey.com/issues"
+  },
+  "homepage": "https://github.com/felpsey/open.felpsey.com#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  }
+}
