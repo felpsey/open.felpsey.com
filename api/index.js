@@ -1,19 +1,18 @@
-const router = require('./app/core/router');
+const router = require('./core/router');
 
 const fs =     require('fs');
 const env =    require('dotenv').config();
 
 const app =    router();
-const port =   3000;
+const port =   process.env.WEBSITE_PORT;
 
 
 
 app.get('/', (request, response) => {
-  response.writeHead(200, {'Content-Type': 'text/html'});
+  response.setHeader('Content-Type', 'application/json');
+  response.end(JSON.stringify({ msg: 'API online' }));
 
-  var file = fs.createReadStream('./views/index.html');
-  
-  file.pipe(response);
+  return true;
 });
 
 // app.get('/test-route', (request, response) => response.send('Testing testing'));
