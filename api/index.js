@@ -4,9 +4,7 @@ const fs =     require('fs');
 const env =    require('dotenv').config();
 
 const app =    router();
-const port =   process.env.WEBSITE_PORT;
-
-
+const port =   process.env.APP_PORT;
 
 app.get('/', (request, response) => {
   response.setHeader('Content-Type', 'application/json');
@@ -14,6 +12,50 @@ app.get('/', (request, response) => {
 
   return true;
 });
+
+const { Client, Intents } = require('discord.js');
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
+
+const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+
+const commands = [{
+  name: 'ping',
+  description: 'Replies with Pong!'
+}]; 
+
+const rest = new REST({ version: '9' }).setToken(`${process.env.DISCORD_TOKEN}`);
+
+(async () => {
+  try {
+    console.log('Started refreshing application (/) commands.');
+
+    await rest.put(
+      Routes.applicationGuildCommands(`${process.env.CLIENT_ID}`, `${process.env.GUILD_ID}`),
+      { body: commands },
+    );
+
+    console.log('Successfully reloaded application (/) commands.');
+  } catch (error) {
+    console.error(error);
+  }
+})();
+
+
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+});
+
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isCommand()) return;
+
+  if (interaction.commandName === 'ping') {
+    await interaction.reply('Pong!');
+  }
+});
+
+client.login(`${process.env.DISCORD_TOKEN}`);
+
 
 // app.get('/test-route', (request, response) => response.send('Testing testing'));
 // app.get('/user/:username', (request, response) => {
